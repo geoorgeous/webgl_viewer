@@ -1,0 +1,153 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overscroll-behavior-y: none;
+    color: #ccc;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+canvas {
+    display: block;
+    position: absolute;
+}
+
+#import-window {
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    background-color: rgba(0, 0, 0, 0.75);
+    left: 50%;
+    top: 50%;
+    margin-left:-150px;
+    margin-top:-150px;
+    padding: 1em;
+}
+
+input[type="number"] {
+    width: 55%;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+    color: white;
+    text-align: right;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    display: none;
+}
+
+select {
+    width: 100%;
+    background-color: rgba(100, 100, 100, 0.75);
+    color: #fff;
+    padding: 0;
+    border: 0;
+}
+
+select option {
+    background-color: #222;
+    border-radius: 0;
+}
+
+::-webkit-scrollbar {
+    background-color: rgba(32, 32, 32, 0.75);
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(32, 32, 32, 0.75); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(64, 64, 64, 0.75); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 100, 100, 0.75); 
+}
+
+.list-view {
+    display: block;
+    width: 100%;
+    background-color: rgba(32, 32, 32, 0.5);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    min-height: 8em;
+    max-height: 8em;
+}
+
+.list-view ul {
+    padding: 0;
+    margin: 0;
+}
+
+.list-view li {
+    list-style: none;
+    padding: 1px 0 1px 0.5em;
+    user-select: none;
+}
+
+.list-view li:nth-child(even) {
+    background-color: rgba(16, 16, 16, 0.5);
+}
+
+.list-view li:nth-child(odd) {
+    background-color: rgba(32, 32, 32, 0.5);
+}
+
+.list-view li:hover {
+    background: rgba(64, 64, 64, 0.75); 
+}
+
+.list-view li.selected {
+    background: rgba(100, 100, 100, 0.75); 
+}
+
+#controls {
+    position: absolute;
+}
+
+h3 {
+    margin: 0;
+}
+
+.panel {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+.left {
+    display: inline-block;
+    width: 100px;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+}
+
+.right {
+    display: inline-block;
+    width: 200px;
+    text-align: right;
+    margin: 0;
+    padding: 0;
+    height: 24px;
+}
+
+.vector-component {
+    display: inline-block;
+    width: 33.333%;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+}
+
+.vector-component label {
+    display: inline-block;
+    width: 1em;
+    text-align: center;
+}

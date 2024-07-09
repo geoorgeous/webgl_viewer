@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"
+      integrity="sha512-zhHQR0/H5SEBL3Wn6yYSaTTZej12z0hVZKOv3TwCUXT1z5qeqGcXJLLrbERYRScEDDpYIJhPC1fk31gqR783iQ=="
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="js/math_helpers.js"></script>
+    <script src="js/webgl_helpers.js"></script>
+    <script src="js/asset_helpers.js"></script>
+    <script src="js/shader_source.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="controls">
+      <div class="panel">
+        <input id="show-import-window-button" type="button" value="import..."/>
+        <br>
+        <br>
+        <span class="left"><label for="checkbox_show-grid">draw grid:</label></span
+        ><span class="right"><input id="checkbox_show-grid" type="checkbox" checked="true"/></span>
+      </div>
+      <div id="assets-panel" class="panel">
+        <h3>materials</h3>
+        <div id="material-list-container" class="list-view">
+          <ul id="material-list"></ul>
+        </div>
+      </div>
+      <div id="scene-panel" class="panel">
+        <h3>scene objects</h3>
+        <div id="object-list-container" class="list-view">
+          <ul id="object-list"></ul>
+        </div>
+      </div>
+      <div id="inspector-panel" class="panel">
+        <h3>inspector</h3>
+        <div id="material-inspector">
+          <span class="left"><label for="number_selected-material-color-ambient-r">ambient:</label></span
+          ><span class="right"
+          ><span class="vector-component"><label for="number_selected-material-color-ambient-r">r:</label><input id="number_selected-material-color-ambient-r" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-material-color-ambient-g">g:</label><input id="number_selected-material-color-ambient-g" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-material-color-ambient-b">b:</label><input id="number_selected-material-color-ambient-b" type="number"/></span
+          ></span>
+          <br>
+          <span class="left"><label for="number_selected-material-color-diffuse-r">diffuse:</label></span
+          ><span class="right"
+          ><span class="vector-component"><label for="number_selected-material-color-diffuse-r">r:</label><input id="number_selected-material-color-diffuse-r" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-material-color-diffuse-g">g:</label><input id="number_selected-material-color-diffuse-g" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-material-color-diffuse-b">b:</label><input id="number_selected-material-color-diffuse-b" type="number"/></span
+          ></span>
+          <br>
+          <span class="left"><label for="number_selected-material-color-specular-r">specular:</label></span
+          ><span class="right"
+          ><span class="vector-component"><label for="number_selected-material-color-specular-r">r:</label><input id="number_selected-material-color-specular-r" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-material-color-specular-g">g:</label><input id="number_selected-material-color-specular-g" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-material-color-specular-b">b:</label><input id="number_selected-material-color-specular-b" type="number"/></span
+          ></span>
+          <br>
+          <span class="left"><label for="number_selected-material-specular-exponent">spec. exp.:</label></span
+          ><span class="right"><input id="number_selected-material-specular-exponent" type="number"/></span>
+          <br>
+          <span class="left"><label for="select_selected-material-map-diffuse">diffuse map:</label></span
+          ><span class="right"><select id="select_selected-material-map-diffuse"></select></span>
+          <br>
+          <span class="left"><label for="select_selected-material-map-normal">normal map:</label></span
+          ><span class="right"><select id="select_selected-material-map-normal"></select></span>
+          <br>
+          <span class="left"><label for="select_selected-material-map-specular">specular map:</label></span
+          ><span class="right"><select id="select_selected-material-map-specular"></select></span>
+          <br>
+          <span class="left"><label for="select_selected-material-map-opacity">opacity map:</label></span
+          ><span class="right"><select id="select_selected-material-map-opacity"></select></span>
+          <br>
+        </div>
+        <div id="object-inspector">
+          <span class="left"><label for="select_selected-object-mesh">mesh:</label></span
+          ><span class="right"><select id="select_selected-object-mesh"></select></span>
+          <br>
+          <span class="left"><label for="select_selected-object-material">material:</label></span
+          ><span class="right"><select id="select_selected-object-material"></select></span>
+          <br>
+          <span class="left"><label for="number_selected-object-position-x">position:</label></span
+          ><span class="right"
+          ><span class="vector-component"><label for="number_selected-object-position-x">x:</label><input id="number_selected-object-position-x" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-object-position-y">y:</label><input id="number_selected-object-position-y" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-object-position-z">z:</label><input id="number_selected-object-position-z" type="number"/></span
+          ></span>
+          <br>
+          <span class="left"><label for="number_selected-object-rotation-x">rotation:</label></span
+          ><span class="right"
+          ><span class="vector-component"><label for="number_selected-object-rotation-x">x:</label><input id="number_selected-object-rotation-x" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-object-rotation-y">y:</label><input id="number_selected-object-rotation-y" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-object-rotation-z">z:</label><input id="number_selected-object-rotation-z" type="number"/></span
+          ></span>
+          <br>
+          <span class="left"><label for="number_selected-object-scale-x">scale:</label></span
+          ><span class="right"
+          ><span class="vector-component"><label for="number_selected-object-scale-x">x:</label><input id="number_selected-object-scale-x" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-object-scale-y">y:</label><input id="number_selected-object-scale-y" type="number"/></span
+          ><span class="vector-component"><label for="number_selected-object-scale-z">z:</label><input id="number_selected-object-scale-z" type="number"/></span
+          ></span>
+        </div>
+      </div>
+    </div>
+    <div id="import-window">
+      <input id="file-select_import" type="file" multiple/><br>
+      <h3>Mesh import options</h3>
+      <span class="left"><label for="selected-object-pos" title="Applies translation to the mesh on a per-vertex basis.">translation:</label></span
+      ><span class="right"
+      ><span class="vector-component"><label for="number_import-mesh-translation-x">x:</label><input id="number_import-mesh-translation-x" type="number"/></span
+      ><span class="vector-component"><label for="number_import-mesh-translation-y">y:</label><input id="number_import-mesh-translation-y" type="number"/></span
+      ><span class="vector-component"><label for="number_import-mesh-translation-z">z:</label><input id="number_import-mesh-translation-z" type="number"/></span
+      ></span>
+      <br>
+      <span class="left"><label for="selected-object-pos" title="Applies scaling to the mesh on a per-vertex basis.">scale:</label></span
+      ><span class="right"
+      ><span class="vector-component"><label for="number_import-mesh-scale-x">x:</label><input id="number_import-mesh-scale-x" type="number"/></span
+      ><span class="vector-component"><label for="number_import-mesh-scale-y">y:</label><input id="number_import-mesh-scale-y" type="number"/></span
+      ><span class="vector-component"><label for="number_import-mesh-scale-z">z:</label><input id="number_import-mesh-scale-z" type="number"/></span
+      ></span>
+      <br>
+      <span class="left"><label for="import-options-combine-meshes" title="Combines all of the meshes in a given file in to one single mesh.">combine meshes:</label></span
+      ><span class="right"><input id="import-options-combine-meshes" type="checkbox"/></span>
+      <br>
+      <span class="left"><label for="import-options-generate-normals" title="Generates vertex normals for each mesh, even if the mesh already has them. Normals are always generated if a mesh is missing them.">generate normals:</label></span
+      ><span class="right"><input id="import-options-generate-normals" type="checkbox"/></span>
+      <input id="button_import-cancel" type="button" value="cancel"/>
+      <input id="button_import-confirm" type="button" value="import"/>
+    </div>
+</body>
+</html>
